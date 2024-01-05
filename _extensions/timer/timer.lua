@@ -1,3 +1,9 @@
+quarto.doc.add_html_dependency({
+  name = "quarto-timer",
+  version = "1.0.0",
+  scripts = {"timer.js"}
+})
+
 function CodeBlock(block)
     if block.classes[1] == "timer" then
         local containerId = block.identifier
@@ -21,9 +27,3 @@ end
 return {
     { CodeBlock = CodeBlock }
 }
-
-quarto.doc.add_html_dependency({
-  name = "quarto-timer",
-  version = "1.0.0",
-  scripts = {"timer.js"}
-})

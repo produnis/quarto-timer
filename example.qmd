@@ -1,5 +1,7 @@
 ---
 title: Quarto Timer
+filters:
+  - timer.lua
 format:
    html: default
 ---
@@ -40,4 +42,9 @@ Here is an example of 4 minutes of waiting:
 
 You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` every time.
 
-![multiple timers in action](https://www.produnis.de/blog/posts/2024-01-04-Revealjs-Timer/revealjstimer.jpg)
+::: {.timer  #TheFirst seconds=40}
+:::
+
+
+::: {.timer  #TheSecond seconds=40}
+:::
