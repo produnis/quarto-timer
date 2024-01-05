@@ -7,7 +7,7 @@ This extension adds the ability to set specific timers to your slides. This migh
 ## Installation
 
 ```
-$ quarto add quarto-ext/pointer
+$ quarto add produnis/quarto-timer
 ```
 
 ## Usage
