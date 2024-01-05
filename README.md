@@ -31,7 +31,7 @@ Here is an example of 4 minutes of waiting:
 ```
 Please think about this for 4 minutes.
 <div id="4minWaiting"></div>
-<script src="timer.js"></script>
+<script src="_extensions/produnis/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         initializeTimer("4minWaiting", 240); 
