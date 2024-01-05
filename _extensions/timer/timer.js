@@ -116,7 +116,3 @@ function initializeTimer(containerId, timeLimit) {
       .setAttribute("stroke-dasharray", circleDasharray);
   }
 }
-
-// Beispielaufruf für zwei Timer in unterschiedlichen Containern
-initializeTimer("timer-container-1", 300); // Container-ID und Zeitlimit für den ersten Timer
-initializeTimer("timer-container-2", 180); // Container-ID und Zeitlimit für den zweiten Timer

@@ -4,10 +4,10 @@ quarto.doc.add_html_dependency({
   scripts = {"timer.js"}
 })
 
-function CodeBlock(block)
-    if block.classes[1] == "timer" then
-        local containerId = block.identifier
-        local timeLimit = tonumber(block.attributes["seconds"]) or 300  -- Default: 300 Sekunden
+function Div(div)
+    if div.classes[1] == "timer" then
+        local containerId = div.identifier
+        local timeLimit = tonumber(div.attributes["seconds"]) or 300  -- Default: 300 Sekunden
 
         local htmlSnippet = string.format([[
             <div id="%s"></div>
@@ -20,10 +20,10 @@ function CodeBlock(block)
 
         return pandoc.RawBlock("html", htmlSnippet)
     end
-    return block
+    return div
 end
 
 -- Füge den Filter zu Pandoc hinzu
 return {
-    { CodeBlock = CodeBlock }
+    { Div = Div }
 }
