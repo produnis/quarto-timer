@@ -12,7 +12,7 @@ $ quarto add quarto-ext/pointer
 
 ## Usage
 
-If you want to add a timer, use the following code snippet into your qmd-File:
+If you want to add a timer, use the following code snippet in your `qmd`-File:
 
 ```
 <div id="UNIQUE-ID"></div>
