@@ -39,7 +39,7 @@ Please think about this for 4 minutes.
 </script>
 ```
 
-You can use as many timers on your slides as you want, as long as you use a every time.
+You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` every time.
 
 ![multiple timers in action](https://www.produnis.de/blog/posts/2024-01-04-Revealjs-Timer/revealjstimer.jpg)
 
