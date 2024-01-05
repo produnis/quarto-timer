@@ -12,7 +12,13 @@ $ quarto add produnis/quarto-timer
 
 ## Usage
 
-If you want to add a timer, use the following code snippet in your `qmd`-File:
+You can add timers using
+
+- raw HTML
+- LUA filter
+
+### Raw HTML
+If you want to add a timer in raw HTML, you can use the following code snippet in your `qmd`-File:
 
 ```
 <div id="UNIQUE-ID"></div>
@@ -39,7 +45,27 @@ Please think about this for 4 minutes.
 </script>
 ```
 
+### Lua filter
+
+However, this extension adds a lua-filter, that can be activated in YAML with
+
+```
+---
+filters: 
+  - timer
+---
+```
+
+Having the filter ready, you can add a timer with 
+
+```
+:::{.timer #UNIQUE-ID seconds=100}
+:::
+```
+
+
+
+
 You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` every time.
 
 ![multiple timers in action](https://www.produnis.de/blog/posts/2024-01-04-Revealjs-Timer/revealjstimer.jpg)
-
