@@ -2,3 +2,4 @@ example_files
 example.html
 /.luarc.json
 .Rproj.user
+.Rhistory

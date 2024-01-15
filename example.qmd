@@ -3,13 +3,23 @@ title: Quarto Timer
 filters:
   - timer
 format:
-   html: default
+   html
 ---
 
+##
 
+<div id="TestminWaiting"></div>
+<script src="_extensions/timer/timer.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeTimer("TestminWaiting", 240); 
+    });
+</script>
+
+##
 This extension adds the ability to set specific timers to your slides. This might be handful, if, for example, you want your audience to think about a specific topic for 5 minutes.
  
-::: {.timer  #FirstTimer seconds=140}
+::: {#FirstTimer .timer seconds=140}
 :::
 
 ## Installation

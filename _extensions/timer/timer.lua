@@ -1,7 +1,8 @@
 quarto.doc.add_html_dependency({
   name = "quarto-timer",
   version = "1.0.0",
-  scripts = {"timer.js"}
+  scripts = {"timer.js"},
+  stylesheets = {"timer.css"}
 })
 
 function Div(div)
