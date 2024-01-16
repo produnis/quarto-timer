@@ -2,7 +2,7 @@
 
 This extension adds the ability to set specific timers to your slides. This might be handful, if, for example, you want your audience to think about a specific topic for 5 minutes.
  
-![Timer in action](https://www.produnis.de/blog/posts/2024-01-04-Revealjs-Timer/4mintimer.jpg)
+![Timer in action](https://www.produnis.de/blog/posts/2024-01-16-QuartoExtensions/4mintimer.jpg)
 
 ## Installation
 
