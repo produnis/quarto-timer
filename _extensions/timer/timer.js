@@ -19,7 +19,7 @@ const COLOR_CODES = {
 };
 
 // Funktion zur Initialisierung des Timers in einem Container
-function initializeTimer(containerId, timeLimit) {
+function initializeTimer(containerId, timeLimit, focusRequired) {
   let timePassed = 0;
   let timeLeft = timeLimit;
   let timerInterval = null;
@@ -50,11 +50,14 @@ function initializeTimer(containerId, timeLimit) {
     </div>
   `;
 
-  startTimer();
-
   // Startet den Timer für einen bestimmten Container
-  function startTimer() {
+  (function startTimer() {
     timerInterval = setInterval(() => {
+      
+      if(focusRequired && isHidden()) {
+        return;
+      }
+
       timePassed = timePassed += 1;
       timeLeft = timeLimit - timePassed;
       document.getElementById(`${containerId}-label`).innerHTML = formatTime(
@@ -67,6 +70,17 @@ function initializeTimer(containerId, timeLimit) {
         onTimesUp();
       }
     }, 1000);
+  })()
+
+  function isHidden() {
+    let timecont = document.getElementById(containerId);
+    let ancestor = timecont.parentNode;
+
+    // look if the section element, the 'slide', is visible
+    while (ancestor.tagName !== 'SECTION') {
+      ancestor = ancestor.parentNode;
+    }
+    return ancestor.hidden;
   }
 
   // Funktion, die aufgerufen wird, wenn der Timer abgelaufen ist
@@ -100,19 +114,14 @@ function initializeTimer(containerId, timeLimit) {
     }
   }
 
-  // Funktion zur Berechnung des Anteils der verstrichenen Zeit
-  function calculateTimeFraction() {
-    const rawTimeFraction = timeLeft / timeLimit;
-    return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
-  }
-
   // Funktion zur Festlegung der Strichlänge des verbleibenden Pfades basierend auf dem Anteil der verstrichenen Zeit
   function setCircleDasharray() {
-    const circleDasharray = `${(
-      calculateTimeFraction() * FULL_DASH_ARRAY
-    ).toFixed(0)} 283`;
+    // 
+    let circle_proportions = timeLeft / timeLimit * FULL_DASH_ARRAY + '% ';
+    circle_proportions += (1 - timeLeft / timeLimit) * FULL_DASH_ARRAY + '%';
+    
     document
       .getElementById(`${containerId}-path-remaining`)
-      .setAttribute("stroke-dasharray", circleDasharray);
+      .setAttribute("stroke-dasharray", circle_proportions);
   }
 }
