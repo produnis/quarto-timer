@@ -25,12 +25,12 @@ If you want to add a timer in raw HTML, you can use the following code snippet i
 <script src="_extensions/produnis/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("UNIQUE-ID", SECONDS); 
+        initializeTimer("UNIQUE-ID", SECONDS, FOCUS_BOOL); 
     });
 </script>
 ```
 
-...and replace `UNIQUE-ID` with a (tadaaa) unique ID and `SECONDS` with the seconds to count down.
+...and replace `UNIQUE-ID` with a (tadaaa) unique ID, `SECONDS` with the seconds to count down, and 'FOCUS_BOOL' with `true` or `false` to indicate if the timer should only be active when the slide is in **focus** or start when the presentation does.
 
 Here is an example of 4 minutes of waiting:
 
@@ -40,7 +40,7 @@ Please think about this for 4 minutes.
 <script src="_extensions/produnis/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("4minWaiting", 240); 
+        initializeTimer("4minWaiting", 240, true); 
     });
 </script>
 ```
@@ -59,12 +59,9 @@ filters:
 Having the filter ready, you can add a timer with 
 
 ```
-:::{.timer #UNIQUE-ID seconds=100}
+:::{.timer #UNIQUE-ID seconds=100 onfocus=true}
 :::
 ```
-
-
-
 
 You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` every time.
 
