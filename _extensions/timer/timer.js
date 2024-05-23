@@ -116,9 +116,8 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
 
   // Funktion zur Festlegung der Strichlänge des verbleibenden Pfades basierend auf dem Anteil der verstrichenen Zeit
   function setCircleDasharray() {
-    // 
-    let circle_proportions = timeLeft / timeLimit * FULL_DASH_ARRAY + '% ';
-    circle_proportions += (1 - timeLeft / timeLimit) * FULL_DASH_ARRAY + '%';
+    let circle_proportions = timeLeft / timeLimit * FULL_DASH_ARRAY + ' ';
+    circle_proportions += (1 - timeLeft / timeLimit) * FULL_DASH_ARRAY + '';
     
     document
       .getElementById(`${containerId}-path-remaining`)
