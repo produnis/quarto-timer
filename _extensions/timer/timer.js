@@ -1,6 +1,7 @@
 // Credit: Mateusz Rybczonec
 
-const FULL_DASH_ARRAY = 283;
+// dash array value is the circumference of the circle radius (here 45)
+const FULL_DASH_ARRAY = 2 * Math.PI * 45;
 const WARNING_THRESHOLD = 10;
 const ALERT_THRESHOLD = 5;
 
@@ -22,7 +23,6 @@ const COLOR_CODES = {
 function initializeTimer(containerId, timeLimit, focusRequired) {
   let timePassed = 0;
   let timeLeft = timeLimit;
-  let timerInterval = null;
   let remainingPathColor = COLOR_CODES.info.color;
 
   // Dynamisches Erstellen des Timer-HTML-Inhalts für jeden Container
@@ -33,43 +33,41 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
           <path
             id="${containerId}-path-remaining"
-            stroke-dasharray="283"
-            class="base-timer__path-remaining ${remainingPathColor}"
-            d="
-              M 50, 50
-              m -45, 0
-              a 45,45 0 1,0 90,0
-              a 45,45 0 1,0 -90,0
-            "
-          ></path>
+  stroke-dasharray="${FULL_DASH_ARRAY}"
+  class="base-timer__path-remaining ${remainingPathColor}"
+  d="
+  M 50, 50
+  m -45, 0
+  a 45,45 0 1,0 90,0
+  a 45,45 0 1,0 -90,0
+  "
+  ></path>
         </g>
       </svg>
       <span id="${containerId}-label" class="base-timer__label">${formatTime(
         timeLeft
       )}</span>
     </div>
-  `;
+    `;
 
   // Startet den Timer für einen bestimmten Container
   (function startTimer() {
-    timerInterval = setInterval(() => {
-      
-      if(focusRequired && isHidden()) {
-        return;
-      }
+    // only advance time when focus is required and slide is in focus
+    if(!focusRequired || !isHidden()) {
 
-      timePassed = timePassed += 1;
-      timeLeft = timeLimit - timePassed;
-      document.getElementById(`${containerId}-label`).innerHTML = formatTime(
-        timeLeft
-      );
-      setCircleDasharray();
-      setRemainingPathColor(timeLeft);
+        timePassed = timePassed += 1;
+        timeLeft = timeLimit - timePassed;
+        document.getElementById(`${containerId}-label`).innerHTML = formatTime(
+          timeLeft
+        );
+        setCircleDasharray();
+        setRemainingPathColor(timeLeft);
 
-      if (timeLeft === 0) {
-        onTimesUp();
-      }
-    }, 1000);
+        if (timeLeft === 0) {
+          onTimesUp();
+        }
+    }
+    setTimeout(startTimer, 1000);
   })()
 
   function isHidden() {
@@ -81,11 +79,6 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
       ancestor = ancestor.parentNode;
     }
     return ancestor.hidden;
-  }
-
-  // Funktion, die aufgerufen wird, wenn der Timer abgelaufen ist
-  function onTimesUp() {
-    clearInterval(timerInterval);
   }
 
   // Funktion zur Formatierung der verbleibenden Zeit
@@ -100,7 +93,8 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
     return `${minutes}:${seconds}`;
   }
 
-  // Funktion zur Festlegung der Farbe des verbleibenden Pfades basierend auf der verbleibenden Zeit
+  // Funktion zur Festlegung der Farbe des verbleibenden
+  // Pfades basierend auf der verbleibenden Zeit
   function setRemainingPathColor(timeLeft) {
     const { alert, warning, info } = COLOR_CODES;
     const pathId = `${containerId}-path-remaining`;
@@ -114,11 +108,12 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
     }
   }
 
-  // Funktion zur Festlegung der Strichlänge des verbleibenden Pfades basierend auf dem Anteil der verstrichenen Zeit
+  // Funktion zur Festlegung der Strichlänge des verbleibenden
+  // Pfades basierend auf dem Anteil der verstrichenen Zeit
   function setCircleDasharray() {
     let circle_proportions = timeLeft / timeLimit * FULL_DASH_ARRAY + ' ';
     circle_proportions += (1 - timeLeft / timeLimit) * FULL_DASH_ARRAY + '';
-    
+
     document
       .getElementById(`${containerId}-path-remaining`)
       .setAttribute("stroke-dasharray", circle_proportions);
