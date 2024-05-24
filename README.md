@@ -1,10 +1,11 @@
 # Quarto Timer
 
-This extension adds the ability to set specific timers to your slides. This might be handful, if, for example, you want your audience to think about a specific topic for 5 minutes.
+This extension provides the ability to add visible progress timers to your slides. This might be helpful, if, for example, you want your audience to think about a specific topic for 5 minutes.
  
 ![Timer in action](https://www.produnis.de/blog/posts/2024-01-16-QuartoExtensions/4mintimer.jpg)
 
 ## Installation
+In the RStudio terminal:
 
 ```
 $ quarto add produnis/quarto-timer
@@ -12,10 +13,10 @@ $ quarto add produnis/quarto-timer
 
 ## Usage
 
-You can add timers using
+You can add timers using:
 
 - raw HTML
-- LUA filter
+- LUA filter (recommended)
 
 ### Raw HTML
 If you want to add a timer in raw HTML, you can use the following code snippet in your `qmd`-File:
@@ -30,9 +31,9 @@ If you want to add a timer in raw HTML, you can use the following code snippet i
 </script>
 ```
 
-...and replace `UNIQUE-ID` with a (tadaaa) unique ID, `SECONDS` with the seconds to count down, and 'FOCUS_BOOL' with `true` or `false` to indicate if the timer should only be active when the slide is in **focus** or start when the presentation does.
+...and replace `UNIQUE-ID` with a (tadaaa) unique ID, `SECONDS` with the seconds to count down, and `FOCUS_BOOL` with `true` or `false` to indicate if the timer should only be active when the slide is in **focus** or start when the presentation does.
 
-Here is an example of 4 minutes of waiting:
+Here is an example of a 4 minute timer that start when the slide is on focus:
 
 ```
 Please think about this for 4 minutes.
@@ -47,7 +48,7 @@ Please think about this for 4 minutes.
 
 ### Lua filter
 
-However, this extension adds a lua-filter, that can be activated in YAML with
+This extension also provides a lua-filter that can be activated in YAML with:
 
 ```
 ---
@@ -56,7 +57,7 @@ filters:
 ---
 ```
 
-Having the filter ready, you can add a timer with 
+Having the filter ready, you can more easily add a timer with:
 
 ```
 :::{.timer #UNIQUE-ID seconds=100 onfocus=true}

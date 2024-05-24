@@ -1,60 +1,132 @@
 ---
 title: Quarto Timer
+subtitle: Working examples
 filters:
   - timer
 format:
-   html
+   revealjs
 ---
 
-##
+## Extension
 
-<div id="TestminWaiting"></div>
-<script src="_extensions/timer/timer.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("TestminWaiting", 240); 
-    });
-</script>
+This extension provides two methods to add timers to your slides.
 
-##
-This extension adds the ability to set specific timers to your slides. This might be handful, if, for example, you want your audience to think about a specific topic for 5 minutes.
- 
-::: {#FirstTimer .timer seconds=140}
-:::
+- JavaScript
+- LUA
+
+This might be helpful, if, for example, you want your audience to think about a specific topic for 5 minutes.
 
 ## Installation
 
-```
+In RStudio terminal enter the following to download and add extension to the current project:
+
+```{terminal}
 $ quarto add produnis/quarto-timer
+ 
 ```
 
-## Usage
+Go ahead and do it now. You have 15 seconds.
 
-If you want to add a timer, use the following code snippet in your `qmd`-File:
+::: {.timer #TimerInstall seconds=15}
+:::
 
+## JavaScript usage
+
+To add a timer, add the code snippet into your `qmd` file:
+
+```{javascript}
+<div id="UNIQUE-ID"></div>
+<script src="_extensions/timer/timer.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeTimer("UNIQUE-ID", SECONDS, ONFOCUS); 
+    });
+</script>
 ```
-::: {.timer  #UNIQUE-ID seconds=240}
+
+Customize the `UNIQUE-ID`, `SECONDS`, and `ONFOCUS`, as below:
+```{javascript}
+<div id="Timer0"></div>
+<script src="_extensions/timer/timer.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeTimer("Timer0", 60, true); 
+    });
+</script>
+```
+
+## JavaScript usage
+
+Here's a working JavaScript example, added with the following code:
+
+```{javascript}
+<div id="Timer1"></div>
+<script src="_extensions/timer/timer.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeTimer("Timer1", 240, false); 
+    });
+</script>
+```
+
+<div id="Timer1" style="float:left; margin-top: 0.5em"></div>
+<!-- <script src="_extensions/timer/timer.js"></script> -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        initializeTimer("Timer1", 240, false); 
+    });
+</script>
+
+This timer started when the presentation started and lasts 4 minutes (240 seconds).
+
+
+## LUA usage
+
+Adding a timer with LUA takes the following form:
+
+```{markdown}
+::: {.timer #UNIQUE-ID seconds=300 onfocus=true}
 :::
 ```
 
-...and replace `UNIQUE-ID` with a (tadaaa) unique ID and `SECONDS` with the seconds to count down.
+Customize the `UNIQUE-ID` and set the `seconds` and `onfocus`.
 
-Here is an example of 4 minutes of waiting:
+## LUA example
 
-```
-::: {.timer  #4minWaiting seconds=240}
+The default timer can be as simple as the following:
+
+```{markdown}
+::: {.timer #Timer2}
 :::
 ```
 
+Appearing as the following:
 
-::: {.timer  #4minWaiting seconds=240}
+::: {.timer #Timer2}
 :::
 
-You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` every time.
+The default is 5 minutes (300 seconds) and active only when the slide is in focus.
 
-::: {.timer  #TheFirst seconds=40}
+## More LUA examples
+
+You can customize the duration with the `seconds` parameter and state when you want the timer to start with `onfocus`:
+
+```{markdown}
+::: {.timer #Timer3 seconds=60}
 :::
-
-
-::: {.timer  #TheSecond seconds=40}
+::: {.timer #Timer4 seconds=60 onfocus=false}
 :::
+ 
+```
+
+
+<div style="float: left; margin-top: 0.5em">
+::: {.timer #Timer3 seconds=60}
+:::
+</div>
+<div style="float: left; margin-top: 0.5em; margin-right: 1em">
+::: {.timer #Timer4 seconds=60 onfocus=false}
+:::
+</div>
+
+You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` each time.
