@@ -28,14 +28,14 @@ div.base-timer svg circle, div.base-timer svg path {
   stroke: currentColor;
 }
 
-.base-timer__path-remaining.lvl1 {
+.base-timer__path-remaining {
   color: rgb(65, 184, 131);
 }
 
-.base-timer__path-remaining.lvl2 {
+.base-timer__path-remaining.lvl0 {
   color: orange;
 }
 
-.base-timer__path-remaining.lvl3 {
+.base-timer__path-remaining.lvl1 {
   color: red;
 }

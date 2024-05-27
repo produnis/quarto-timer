@@ -2,17 +2,8 @@
 
 // dash array value is the circumference of the circle radius (here 45)
 const FULL_DASH_ARRAY = 2 * Math.PI * 45;
-const WARNING_THRESHOLD = 10;
-const ALERT_THRESHOLD = 5;
-const COLOR_CODES = {
-  "lvl1": { },
-  "lvl2": {
-    threshold: WARNING_THRESHOLD
-  },
-  "lvl3": {
-    threshold: ALERT_THRESHOLD
-  }
-};
+// the second limits for color change
+const THRESHOLDS = [10, 5];
 
 // Funktion zur Initialisierung des Timers in einem Container
 function initializeTimer(containerId, timeLimit, startOn) {
@@ -20,7 +11,6 @@ function initializeTimer(containerId, timeLimit, startOn) {
   let active = true;
   let timePassed = 0;
   let timeLeft = timeLimit;
-  let remainingPathColor = 'lvl1';
 
   // Dynamisches Erstellen des Timer-HTML-Inhalts für jeden Container
   document.getElementById(containerId).innerHTML = `
@@ -30,7 +20,7 @@ function initializeTimer(containerId, timeLimit, startOn) {
           <path
             id="${containerId}-path-remaining"
             stroke-dasharray="${FULL_DASH_ARRAY}"
-            class="base-timer__path-remaining ${remainingPathColor}"
+            class="base-timer__path-remaining"
             d="M 50 50 m 0 -45 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90">
           </path>
           <text id="${containerId}-label" x="50%" y ="50%" dominant-baseline="middle" text-anchor="middle">
@@ -109,12 +99,11 @@ function initializeTimer(containerId, timeLimit, startOn) {
   function setRemainingPathColor(timeLeft) {
     const pathId = `${containerId}-path-remaining`;
 
-    if (timeLeft <= COLOR_CODES.lvl3.threshold) {
-      document.getElementById(pathId).classList.remove("lvl2");
-      document.getElementById(pathId).classList.add("lvl3");
-    } else if (timeLeft <= COLOR_CODES.lvl2.threshold) {
-      document.getElementById(pathId).classList.remove("lvl1");
-      document.getElementById(pathId).classList.add("lvl2");
+    for ( let i = 0; i < THRESHOLDS.length; i+=1 ) {
+      if (timeLeft < THRESHOLDS[i]) {
+        document.getElementById(pathId).classList.remove(`lvl${i-1}`);
+        document.getElementById(pathId).classList.add(`lvl${i}`);
+      }
     }
   }
 
