@@ -5,50 +5,56 @@ const FULL_DASH_ARRAY = 2 * Math.PI * 45;
 const WARNING_THRESHOLD = 10;
 const ALERT_THRESHOLD = 5;
 const COLOR_CODES = {
-  lvl1: {
-    color: "green"
-  },
-  lvl2: {
-    color: "orange",
+  "lvl1": { },
+  "lvl2": {
     threshold: WARNING_THRESHOLD
   },
-  lvl3: {
-    color: "red",
+  "lvl3": {
     threshold: ALERT_THRESHOLD
   }
 };
 
 // Funktion zur Initialisierung des Timers in einem Container
-function initializeTimer(containerId, timeLimit, focusRequired) {
+function initializeTimer(containerId, timeLimit, startOn) {
 
+  let active = true;
   let timePassed = 0;
   let timeLeft = timeLimit;
-  let remainingPathColor = COLOR_CODES.lvl1.color;
+  let remainingPathColor = 'lvl1';
 
   // Dynamisches Erstellen des Timer-HTML-Inhalts für jeden Container
   document.getElementById(containerId).innerHTML = `
     <div class="base-timer">
-      <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <svg id="${containerId}-timer-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle id="${containerId}-circle" class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
           <path
             id="${containerId}-path-remaining"
             stroke-dasharray="${FULL_DASH_ARRAY}"
             class="base-timer__path-remaining ${remainingPathColor}"
-            d="M 50, 50 m -45, 0 a 45,45 0 1,0 90,0 a 45,45 0 1,0 -90,0 ">
+            d="M 50 50 m 0 -45 a 45 45 0 0 1 0 90 a 45 45 0 0 1 0 -90">
           </path>
+          <text id="${containerId}-label" x="50%" y ="50%" dominant-baseline="middle" text-anchor="middle">
+            ${formatTime(timeLeft)}
+          </text>
         </g>
       </svg>
-      <span id="${containerId}-label" class="base-timer__label">
-        ${formatTime(timeLeft)}
-      </span>
     </div>
     `;
+
+  document.getElementById(`${containerId}-timer-svg`).addEventListener("click", (event) => {
+    toggleTimer();
+  });
+
+  // Set the timer to inactive and then change to type slide
+  if ( startOn === "interaction" ) {
+    toggleTimer();
+    startOn = "slide";
+  }
 
   // Startet den Timer für einen bestimmten Container
   (function startTimer() {
     // only advance time when focus is required and slide is in focus
-    if (!focusRequired || !isHidden()) {
+    if (active && (startOn === 'presentation' || (startOn === 'slide' && !isHidden()))) {
 
       timePassed += 1;
       timeLeft = timeLimit - timePassed;
@@ -77,6 +83,15 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
     return ancestor.hidden;
   }
 
+  function toggleTimer() {
+    if (active) {
+      document.getElementById(`${containerId}-circle`).style.fill = '#fcb';
+    } else {
+      document.getElementById(`${containerId}-circle`).style.fill = '';
+    }
+    active = !active;
+  }
+
   // Funktion zur Formatierung der verbleibenden Zeit
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -92,15 +107,14 @@ function initializeTimer(containerId, timeLimit, focusRequired) {
   // Funktion zur Festlegung der Farbe des verbleibenden
   // Pfades basierend auf der verbleibenden Zeit
   function setRemainingPathColor(timeLeft) {
-    const { lvl1, lvl2, lvl3 } = COLOR_CODES;
     const pathId = `${containerId}-path-remaining`;
 
-    if (timeLeft <= lvl3.threshold) {
-      document.getElementById(pathId).classList.remove(lvl2.color);
-      document.getElementById(pathId).classList.add(lvl3.color);
-    } else if (timeLeft <= lvl2.threshold) {
-      document.getElementById(pathId).classList.remove(lvl1.color);
-      document.getElementById(pathId).classList.add(lvl2.color);
+    if (timeLeft <= COLOR_CODES.lvl3.threshold) {
+      document.getElementById(pathId).classList.remove("lvl2");
+      document.getElementById(pathId).classList.add("lvl3");
+    } else if (timeLeft <= COLOR_CODES.lvl2.threshold) {
+      document.getElementById(pathId).classList.remove("lvl1");
+      document.getElementById(pathId).classList.add("lvl2");
     }
   }
 

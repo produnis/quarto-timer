@@ -2,18 +2,14 @@
 /* Timer Countdown */
 
 .base-timer {
+  cursor: pointer;
   position: relative;
   width: 300px;
   height: 300px;
 }
 
-.base-timer__svg {
-  transform: scaleX(-1);
-}
-
-.base-timer__circle {
-  fill: none;
-  stroke: none;
+div.base-timer svg circle, div.base-timer svg path {
+    fill: none;
 }
 
 .base-timer__path-elapsed {
@@ -24,7 +20,6 @@
 .base-timer__path-remaining {
   stroke-width: 7px;
   stroke-linecap: round;
-  transform: rotate(90deg);
   transform-origin: center;
   /* data update happens every 1s so keep transition duration as less,
      otherwise you get strange behaviour, mainly jumps */
@@ -33,25 +28,14 @@
   stroke: currentColor;
 }
 
-.base-timer__path-remaining.green {
+.base-timer__path-remaining.lvl1 {
   color: rgb(65, 184, 131);
 }
 
-.base-timer__path-remaining.orange {
+.base-timer__path-remaining.lvl2 {
   color: orange;
 }
 
-.base-timer__path-remaining.red {
+.base-timer__path-remaining.lvl3 {
   color: red;
-}
-
-.base-timer__label {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
 }
