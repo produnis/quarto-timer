@@ -30,6 +30,25 @@ Go ahead and do it now. You have 15 seconds.
 ::: {.timer #TimerInstall seconds=15}
 :::
 
+## JavaScript and LUA usage
+
+Following installation you can embed timers into pages in two ways.
+
+- JavaScript
+- LUA
+
+Using LUA is generally cleaner in markdown but both methods will be shown.
+
+## Customization
+
+You can change two features of timers individually:
+
+- How long they will last
+- When they will be active:
+  - From the start of a `presentation`
+  - When the `slide` is visible
+  - On `interaction`, clicking on the timer
+
 ## JavaScript usage
 
 To add a timer, add the code snippet into your `qmd` file:
@@ -39,21 +58,22 @@ To add a timer, add the code snippet into your `qmd` file:
 <script src="_extensions/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("UNIQUE-ID", SECONDS, ONFOCUS); 
+        initializeTimer("UNIQUE-ID", SECONDS, STARTON); 
     });
 </script>
 ```
 
-Customize the `UNIQUE-ID`, `SECONDS`, and `ONFOCUS`, as below:
+Customize the `UNIQUE-ID`, `SECONDS`, and `STARTON`, as below:
 ```{javascript}
 <div id="Timer0"></div>
 <script src="_extensions/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("Timer0", 60, true); 
+        initializeTimer("Timer0", 60, "slide"); 
     });
 </script>
 ```
+
 
 ## JavaScript usage
 
@@ -64,7 +84,7 @@ Here's a working JavaScript example, added with the following code:
 <script src="_extensions/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("Timer1", 240, false); 
+        initializeTimer("Timer1", 240, "presentation"); 
     });
 </script>
 ```
@@ -73,7 +93,7 @@ Here's a working JavaScript example, added with the following code:
 <!-- <script src="_extensions/timer/timer.js"></script> -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("Timer1", 240, false); 
+        initializeTimer("Timer1", 240, "presentation"); 
     });
 </script>
 
@@ -85,11 +105,17 @@ This timer started when the presentation started and lasts 4 minutes (240 second
 Adding a timer with LUA takes the following form:
 
 ```{markdown}
-::: {.timer #UNIQUE-ID seconds=300 onfocus=true}
+::: {.timer #UNIQUE-ID seconds=300 starton=slide}
 :::
 ```
 
-Customize the `UNIQUE-ID` and set the `seconds` and `onfocus`.
+Customize the `UNIQUE-ID` and set the `seconds` and `starton`.
+
+NOTE: `starton` can have the values:
+
+- `presentation`
+- `slide`
+- `interaction`
 
 ## LUA example
 
@@ -109,24 +135,28 @@ The default is 5 minutes (300 seconds) and active only when the slide is in focu
 
 ## More LUA examples
 
-You can customize the duration with the `seconds` parameter and state when you want the timer to start with `onfocus`:
+You can use as many timers on your slides as you want, as long as a unique `UNIQUE-ID` is used for each.
 
 ```{markdown}
 ::: {.timer #Timer3 seconds=60}
 :::
-::: {.timer #Timer4 seconds=60 onfocus=false}
+::: {.timer #Timer4 seconds=60 starton=presentation}
+:::
+::: {.timer #Timer5 seconds=60 starton=interaction}
 :::
  
 ```
-
 
 <div style="float: left; margin-top: 0.5em">
 ::: {.timer #Timer3 seconds=60}
 :::
 </div>
-<div style="float: left; margin-top: 0.5em; margin-right: 1em">
-::: {.timer #Timer4 seconds=60 onfocus=false}
+<div style="float: left; margin-top: 0.5em">
+::: {.timer #Timer4 seconds=60 starton=presentation}
+:::
+</div>
+<div style="float: left; margin-top: 0.5em">
+::: {.timer #Timer5 seconds=60 starton=interaction}
 :::
 </div>
 
-You can use as many timers on your slides as you want, as long as you use a unique `UNIQUE-ID` each time.

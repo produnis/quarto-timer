@@ -18,7 +18,7 @@ You can add timers using:
 - raw HTML
 - LUA filter (recommended)
 
-### Raw HTML
+### Raw HTML/JavaScript
 If you want to add a timer in raw HTML, you can use the following code snippet in your `qmd`-File:
 
 ```
@@ -26,12 +26,16 @@ If you want to add a timer in raw HTML, you can use the following code snippet i
 <script src="_extensions/produnis/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("UNIQUE-ID", SECONDS, FOCUS_BOOL); 
+        initializeTimer("UNIQUE-ID", SECONDS, STARTON); 
     });
 </script>
 ```
 
-...and replace `UNIQUE-ID` with a (tadaaa) unique ID, `SECONDS` with the seconds to count down, and `FOCUS_BOOL` with `true` or `false` to indicate if the timer should only be active when the slide is in **focus** or start when the presentation does.
+...and replace `UNIQUE-ID` with a (tadaaa) unique ID, `SECONDS` with the seconds to count down, and `STARTON` with `presentation`, `slide`, or `interaction` to indicate when the timer become active:
+
+- From the start of a `presentation`
+- When the `slide` is visible
+- On `interaction`, clicking on the timer
 
 Here is an example of a 4 minute timer that start when the slide is on focus:
 
@@ -41,7 +45,7 @@ Please think about this for 4 minutes.
 <script src="_extensions/produnis/timer/timer.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        initializeTimer("4minWaiting", 240, true); 
+        initializeTimer("4minWaiting", 240, "slide"); 
     });
 </script>
 ```
@@ -60,7 +64,22 @@ filters:
 Having the filter ready, you can more easily add a timer with:
 
 ```
-:::{.timer #UNIQUE-ID seconds=100 onfocus=true}
+:::{.timer #UNIQUE-ID seconds=100 starton=presentation}
+:::
+```
+
+The above will start timing from when the presentation is loaded.
+The example below starts when the slide or page becomes visible.
+
+```
+:::{.timer #UNIQUE-ID seconds=100 starton=slide}
+:::
+```
+
+Or inserting a timer that requires clicking to start:
+
+```
+:::{.timer #UNIQUE-ID seconds=100 starton=interaction}
 :::
 ```
 
